@@ -1,0 +1,2 @@
+# ignore firebase .plist for no APIKey exposure
+ToDoList/Other/GoogleService-Info.plist
