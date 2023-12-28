@@ -8,26 +8,37 @@
 import SwiftUI
 
 struct LoginFormView: View {
-    @State var email = ""
-    @State var password = ""
+    
+    @ObservedObject var viewModel = LoginViewViewModel()
     
     // color
     let primaryColor: Color
     
     var body: some View {
         Form {
-            TextField("Email address", text: $email)
+            // Error Msg
+            if !viewModel.errorMsg.isEmpty {
+                Text(viewModel.errorMsg)
+                    .foregroundStyle(.red)
+                    .font(.system(size: 14))
+            }
+
+            // Fields
+            TextField("Email address", text: $viewModel.email)
                 .textFieldStyle(DefaultTextFieldStyle())
-            SecureField("Password", text: $password)
+                .autocorrectionDisabled()
+                .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+
+            SecureField("Password", text: $viewModel.password)
                 .textFieldStyle(DefaultTextFieldStyle())
             
+            // Login Button
             ButtonView(primaryColor: primaryColor,
                        buttonText: "Login") {
-                // Action
-            }
+                viewModel.login()
+                }
             }
             .padding(.top, 50)
-        
     }
 }
 

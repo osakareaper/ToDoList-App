@@ -28,7 +28,7 @@ struct ButtonView: View {
                     .bold()
                     .foregroundStyle(.white)
             }
-            .padding(10)
+            .padding()
         })
     }
 }

@@ -8,25 +8,38 @@
 import SwiftUI
 
 struct RegisterFormView: View {
-    @State var name = ""
-    @State var email = ""
-    @State var password = ""
+    
+    @ObservedObject var viewModel = RegisterViewViewModel()
     
     // colors
     let primaryColor: Color
     
     var body: some View {
         Form {
-            TextField("Name", text: $name)
+            // Error Msg
+            if !viewModel.errorMsg.isEmpty {
+                Text(viewModel.errorMsg)
+                    .foregroundStyle(.red)
+                    .font(.system(size: 14))
+            }
+            
+            // Fields
+            TextField("Name", text: $viewModel.name)
                 .textFieldStyle(DefaultTextFieldStyle())
-            TextField("Email address", text: $email)
+                .autocorrectionDisabled()
+            
+            TextField("Email address", text: $viewModel.email)
                 .textFieldStyle(DefaultTextFieldStyle())
-            SecureField("Password", text: $password)
+                .autocorrectionDisabled()
+                .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+            
+            SecureField("Password", text: $viewModel.password)
                 .textFieldStyle(DefaultTextFieldStyle())
             
+            // Register Button
             ButtonView(primaryColor: primaryColor,
                        buttonText: "Register") {
-                // Action
+                viewModel.register()
             }
             
             }
